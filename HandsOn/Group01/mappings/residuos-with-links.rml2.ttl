@@ -1,0 +1,117 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix nso: <http://madridwastemanagement.org/group01/ontology/>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@base <http://madridwastemanagement.org/group01/>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+
+
+<#ZoneTriplesMap>
+    rml:logicalSource [ rml:source "/home/meril/Documents/UPM/Curso2023-2024-ODKG/HandsOn/Group01/csv/Residuos_2021_2023-updated-with-links.csv"; rml:referenceFormulation ql:CSV ];
+    rr:subjectMap [     rr:template "http://madridwastemanagement.org/group01/data/Zone/{Zone}";
+                        rr:termType rr:IRI; rr:class nso:Zone ];
+    rr:predicateObjectMap [
+    rr:predicate nso:zoneID;
+    rr:objectMap [
+        rml:reference "Zone";
+        rr:termType rr:Literal;
+        rr:datatype xsd:integer
+    ]
+];
+
+    rr:predicateObjectMap [
+    rr:predicate rdfs:label;
+    rr:objectMap [
+        rml:reference "Zone";
+        rr:termType rr:Literal;
+        rr:language "en"
+    ]
+];
+
+    rr:predicateObjectMap [
+    rr:predicate nso:hasDistrict;
+    rr:objectMap [
+        rr:template "http://madridwastemanagement.org/group01/data/District/{District}";
+        rr:termType rr:IRI
+    ]
+].
+
+<#DistrictTriplesMap>
+    rml:logicalSource [
+        rml:source "/home/meril/Documents/UPM/Curso2023-2024-ODKG/HandsOn/Group01/csv/Residuos_2021_2023-updated-with-links.csv";
+        rml:referenceFormulation ql:CSV
+    ];
+    rr:subjectMap [
+        rr:template "http://madridwastemanagement.org/group01/data/District/{District}";
+        rr:class nso:District
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [rml:reference "District"; rr:datatype xsd:string]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:districtID;
+        rr:objectMap [rml:reference "District"; rr:datatype xsd:integer]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:districtName;
+        rr:objectMap [rml:reference "Name"; rr:datatype xsd:string; rr:language "en"]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate owl:sameAs;
+        rr:objectMap [rml:reference "same_as_wikidata_district"; rr:termType rr:IRI]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:hasResidue;
+        rr:objectMap [rr:template "http://madridwastemanagement.org/group01/data/WasteType/{WasteType}"]
+    ].
+
+<#WasteTypeTriplesMap>
+    rml:logicalSource [
+        rml:source "/home/meril/Documents/UPM/Curso2023-2024-ODKG/HandsOn/Group01/csv/Residuos_2021_2023-updated-with-links.csv";
+        rml:referenceFormulation ql:CSV
+    ];
+    rr:subjectMap [
+        rr:template "http://madridwastemanagement.org/group01/data/WasteType/{WasteType}";
+        rr:class nso:WasteType
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [rml:reference "WasteType"; rr:datatype xsd:string; rr:language "en"]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate owl:sameAs;
+        rr:objectMap [rml:reference "same_as_wikidata_wastetype"; rr:termType rr:IRI]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:hasTotal;
+        rr:objectMap [rr:template "http://madridwastemanagement.org/group01/data/Total/{WasteType}_{District}"]
+    ].
+
+<#TotalTriplesMap>
+    rml:logicalSource [
+        rml:source "/home/meril/Documents/UPM/Curso2023-2024-ODKG/HandsOn/Group01/csv/Residuos_2021_2023-updated-with-links.csv";
+        rml:referenceFormulation ql:CSV
+    ];
+    rr:subjectMap [
+        rr:template "http://madridwastemanagement.org/group01/data/Total/{WasteType}_{District}_{Year}_{Month}";
+        rr:class nso:Total
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:hasYear;
+        rr:objectMap [rml:reference "Year"; rr:datatype xsd:integer]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:hasMonth;
+        rr:objectMap [rml:reference "Month"; rr:datatype xsd:string; rr:language "en"]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:value;
+        rr:objectMap [rml:reference "Total"; rr:datatype xsd:float]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate nso:referedTo;
+        rr:objectMap [rr:template "http://madridwastemanagement.org/group01/data/District/{District}"]
+    ].

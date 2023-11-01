@@ -18,7 +18,7 @@
     void:exampleResource :map_zonemap_000.
 :map_zonemap_000 rml:logicalSource :source_000.
 :source_000 a rml:LogicalSource;
-    rml:source "Residuos_2021_2023-updated-with-links.csv";
+    rml:source "/home/meril/Documents/UPM/Curso2023-2024-ODKG/HandsOn/Group01/csv/Residuos_2021_2023-updated-with-links.csv";
     rml:referenceFormulation ql:CSV.
 :map_zonemap_000 a rr:TriplesMap;
     rdfs:label "zonemap".
