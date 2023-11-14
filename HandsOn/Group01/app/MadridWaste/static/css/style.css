@@ -35,3 +35,24 @@
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     margin-right: 10px; /* Increase space between pagination buttons */
 }
+
+
+
+
+#wasteTypeDetails {
+    width: 100%;      /* Chart will take full width of the container */
+    height: 400px;    /* Adjust height as needed */
+}
+
+
+body, html {
+    height: 100%;
+}
+
+#sidebar {
+    min-height: 100vh; /* Full height sidebar */
+}
+
+#page-content-wrapper {
+    flex-grow: 1;
+}
