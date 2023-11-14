@@ -39,7 +39,7 @@
 
 
 
-#wasteTypeDetails {
+#myHistogram {
     width: 100%;      /* Chart will take full width of the container */
     height: 400px;    /* Adjust height as needed */
 }
@@ -55,4 +55,17 @@ body, html {
 
 #page-content-wrapper {
     flex-grow: 1;
+}
+
+.custom-home-link {
+    color: lightgrey !important; /* Override default color */
+    font-size: 1.2em; /* Adjust the size as needed */
+}
+
+.custom-home-link:hover {
+    color: white; /* Color on hover (optional) */
+}
+
+.custom-home-icon {
+    font-size: 1.5em; /* Adjust the icon size as needed */
 }

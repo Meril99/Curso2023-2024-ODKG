@@ -47,9 +47,10 @@
 
 
     <!-- Render chart or data table if distribution data is available -->
+      <!-- Render chart or data table if distribution data is available -->
     {% if distribution %}
-        <div id="chartContainer">
-            <canvas id="wasteTypeDetails"></canvas>
+        <div style="max-width: 800px; margin: auto;"> <!-- Center and set max width -->
+            <canvas id="myHistogram" width="800" height="400"></canvas> <!-- Adjust size here -->
         </div>
         <script src="https://cdn.jsdelivr.net/npm/he"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -62,7 +63,7 @@
             var districtNames = data.map(item => item.districtName);
             var amounts = data.map(item => item.amount);
 
-            var ctx = document.getElementById('wasteTypeDetails').getContext('2d');
+            var ctx = document.getElementById('myHistogram').getContext('2d');
 
             // Create the histogram
             var myChart = new Chart(ctx, {
