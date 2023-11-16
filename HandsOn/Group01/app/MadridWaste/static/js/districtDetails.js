@@ -1,18 +1,40 @@
-document.getElementById('yearSelector').addEventListener('change', function() {
+function displayCoordinates() {
+    var coordinateElements = document.getElementsByClassName("formatted-coordinates");
+
+    for (var i = 0; i < coordinateElements.length; i++) {
+        var coordinateString = coordinateElements[i].getAttribute("data-coordinates");
+        var coordinates = coordinateString.match(/-?\d+\.\d+/g);
+
+        if (coordinates && coordinates.length === 2) {
+            var latitude = parseFloat(coordinates[1]);
+            var longitude = parseFloat(coordinates[0]);
+
+            // Format and display coordinates
+            var formattedCoordinates = "Latitude: " + latitude.toFixed(6) + ", Longitude: " + longitude.toFixed(6);
+            coordinateElements[i].innerText = formattedCoordinates;
+        } else {
+            coordinateElements[i].innerText = "Invalid coordinate format";
+        }
+    }
+}
+
+displayCoordinates();
+
+document.getElementById('yearSelector').addEventListener('change', function () {
     var selectedYear = this.value;
     var currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set('year', selectedYear);
     window.location.href = currentUrl.toString();
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#wasteDataTable').DataTable({
         "order": [[2, "asc"]],
         "pagingType": "full_numbers"
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     if (window.wasteResults) {
         initWasteChart(window.wasteResults);
     } else {
@@ -37,13 +59,14 @@ function reverseFormatWasteType(formattedWasteType) {
 }
 
 document.querySelectorAll('.waste-type-link').forEach(link => {
-    link.addEventListener('click', function(event) {
+    link.addEventListener('click', function (event) {
         event.preventDefault();
         const originalWasteType = reverseFormatWasteType(this.textContent.trim());
         const wikidataId = this.dataset.wikidataId;
         window.location.href = `/wasteType?wikidata_id=${wikidataId}&name=${originalWasteType}`;
     });
 });
+
 
 function initWasteChart(wasteResults) {
     var canvas = document.getElementById('wasteChart');
@@ -55,18 +78,18 @@ function initWasteChart(wasteResults) {
 
         wasteResults.forEach(result => {
             if (!wasteTypes.hasOwnProperty(result.wasteName)) {
-                wasteTypes[result.wasteName] = new Array(12).fill(0); // Initialize with zeros for each month
+                wasteTypes[result.wasteName] = [];
             }
-            // Assuming month is in 1-12 format
-            wasteTypes[result.wasteName][parseInt(result.month) - 1] = parseFloat(result.totalAmount);
+            wasteTypes[result.wasteName].push(parseFloat(result.totalAmount));
+
+            if (!labels.includes(result.month)) {
+                labels.push(result.month);
+            }
         });
 
-        // Create labels for each month
-        for (let i = 1; i <= 12; i++) {
-            labels.push(i.toString());
-        }
+        labels.sort((a, b) => a - b);
 
-        Object.keys(wasteTypes).forEach(wasteType => {
+        for (var wasteType in wasteTypes) {
             var color = '#' + Math.floor(Math.random() * 16777215).toString(16);  // random color
             datasets.push({
                 label: wasteType,
@@ -75,7 +98,7 @@ function initWasteChart(wasteResults) {
                 borderColor: color,
                 borderWidth: 1
             });
-        });
+        }
 
         new Chart(ctx, {
             type: 'bar',
